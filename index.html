@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Claude_code CLI 랜딩페이지 제작 & 배포 마스터 | 왕초보 4주 완성</title>
+<meta name="description" content="코딩을 전혀 몰라도 4주 만에 내 손으로 웹사이트를 만들고 배포까지! Claude_code CLI로 배우는 왕초보 웹사이트 제작 & 배포 마스터 과정. 온라인 실시간 강의, 정원 20명 선착순 모집.">
+<meta property="og:title" content="Claude_code CLI 랜딩페이지 제작 & 배포 마스터 | 왕초보 4주 완성">
+<meta property="og:description" content="설치부터 개발·수정·보안·배포까지 한 번에! 코딩 왕초보도 4주면 내 손으로 만든 웹사이트를 인터넷에 띄웁니다.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://claude-code-cli-master.netlify.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://claude-code-cli-master.netlify.app/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://claude-code-cli-master.netlify.app/og-image.png">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<style>
+  :root{
+    --bg-dark:#0D1117;
+    --bg-dark2:#1A2333;
+    --yellow:#FFD400;
+    --mint:#3DDC84;
+    --white:#ffffff;
+    --gray:#9aa4b2;
+    --red:#FF4757;
+    --text-dark:#12151c;
+    --text-body:#3a3f4b;
+    --section-light:#F7F8FA;
+    --card-border:#e7e9ee;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    color:var(--text-body);
+    background:var(--white);
+    overflow-x:hidden;
+  }
+  img,svg{max-width:100%; display:block;}
+  a{text-decoration:none; color:inherit;}
+  ul{list-style:none;}
+  .container{max-width:1080px; margin:0 auto; padding:0 24px;}
+  h1,h2,h3{font-weight:900; color:var(--text-dark); letter-spacing:-0.02em;}
+
+  /* ===== reveal animation ===== */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in-view{opacity:1; transform:translateY(0);}
+
+  /* ===== buttons ===== */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:18px 32px; border-radius:14px; font-size:19px; font-weight:800;
+    cursor:pointer; border:none; transition:transform .15s ease, box-shadow .15s ease;
+    min-height:56px;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--yellow); color:#111; box-shadow:0 6px 0 #C9A700;}
+  .btn-primary:hover{box-shadow:0 4px 0 #C9A700; transform:translateY(2px);}
+  .btn-outline{background:transparent; color:#fff; border:2px solid #fff;}
+  .btn-outline:hover{background:rgba(255,255,255,.1);}
+  .btn-block{width:100%;}
+  .btn-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .hero .btn-row{order:9;}
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    background:linear-gradient(160deg,#0D1117 0%, #1A2333 60%, #10192b 100%);
+    padding:110px 0 90px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; top:-120px; right:-120px; width:420px; height:420px;
+    background:radial-gradient(circle, rgba(255,212,0,.18), transparent 70%);
+    border-radius:50%;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; bottom:-160px; left:-100px; width:420px; height:420px;
+    background:radial-gradient(circle, rgba(61,220,132,.16), transparent 70%);
+    border-radius:50%;
+  }
+  .hero-inner{position:relative; z-index:2; display:flex; flex-direction:column;}
+  .pills{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px; order:1;}
+  .pill{
+    padding:7px 16px; border-radius:999px; font-size:14px; font-weight:700;
+    background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.2);
+  }
+  .pill.on{background:var(--mint); color:#06210f; border-color:var(--mint);}
+  .pill-clickable{cursor:pointer; transition:transform .15s ease;}
+  .pill-clickable:hover, .pill-clickable:focus-visible, .pill-clickable:active{transform:scale(1.1);}
+
+  .hero-quote{
+    color:var(--yellow); font-size:19px; font-weight:800; margin-bottom:18px;
+    font-style:italic; letter-spacing:-0.01em; order:2;
+  }
+  .hero h1{
+    font-size:clamp(30px, 8vw, 58px);
+    line-height:1.25;
+    color:#fff;
+    margin-bottom:18px;
+    order:3;
+  }
+  .hero h1 .accent{color:var(--yellow);}
+  .hero-sub{color:var(--gray); font-size:17px; margin-bottom:28px; order:4;}
+
+  .hero-benefits{margin-bottom:32px; order:5;}
+  .hero-benefits li{
+    color:#e6e9ef; font-size:17px; margin-bottom:10px; padding-left:22px; position:relative;
+  }
+  .hero-benefits li::before{
+    content:"·"; position:absolute; left:0; top:0; color:var(--mint); font-weight:900; font-size:22px;
+  }
+
+  .marquee-item{overflow:hidden;}
+  .marquee-track{display:block; overflow:hidden; width:100%;}
+  .marquee-content{
+    display:inline-flex; white-space:nowrap;
+    animation:marqueeScroll 18s linear infinite;
+  }
+  .marquee-content span{padding-right:48px;}
+  .marquee-track:hover .marquee-content,
+  .marquee-track:active .marquee-content{animation-play-state:paused;}
+  @keyframes marqueeScroll{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+
+  .hero-mascot-wrap{
+    display:flex; align-items:center; gap:18px; margin-bottom:32px; flex-wrap:wrap; order:6;
+  }
+  .mascot{
+    position:relative; width:110px; height:110px; flex-shrink:0;
+    animation:floaty 3.2s ease-in-out infinite;
+  }
+  @keyframes floaty{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-12px);}
+  }
+  .mascot-cap{
+    position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+    width:76px; height:14px; background:#111; border-radius:2px; z-index:3;
+  }
+  .mascot-cap::before{
+    content:""; position:absolute; top:-10px; left:16px; width:44px; height:44px;
+    background:#111; transform:rotate(45deg); border-radius:4px;
+  }
+  .mascot-cap::after{
+    content:""; position:absolute; top:6px; left:2px; width:2px; height:26px;
+    background:var(--yellow); box-shadow:2px 26px 0 0 var(--yellow);
+  }
+  .mascot-face{
+    position:absolute; top:14px; left:5px; width:100px; height:88px;
+    background:var(--mint); border-radius:46% 46% 50% 50%/54% 54% 46% 46%;
+    box-shadow:inset 0 -8px 0 rgba(0,0,0,.08);
+    z-index:2;
+  }
+  .mascot-eye{
+    position:absolute; top:38px; width:14px; height:14px; background:#0D1117; border-radius:50%;
+  }
+  .mascot-eye.l{left:24px;} .mascot-eye.r{right:24px;}
+  .mascot-eye::after{
+    content:""; position:absolute; top:3px; left:3px; width:4px; height:4px; background:#fff; border-radius:50%;
+  }
+  .mascot-mouth{
+    position:absolute; bottom:16px; left:50%; transform:translateX(-50%);
+    width:34px; height:12px; background:#0D1117; border-radius:0 0 16px 16px;
+  }
+  .speech-bubble{
+    position:relative; background:#fff; color:#111; font-weight:800; font-size:15px;
+    padding:12px 18px; border-radius:16px; white-space:nowrap;
+  }
+  .speech-bubble::before{
+    content:""; position:absolute; left:-8px; top:50%; transform:translateY(-50%);
+    border-width:8px 10px 8px 0; border-style:solid; border-color:transparent #fff transparent transparent;
+  }
+
+  .sticker{
+    display:inline-block; background:var(--red); color:#fff; font-weight:900; font-size:15px;
+    padding:9px 18px; border-radius:8px; transform:rotate(-6deg); box-shadow:0 4px 10px rgba(255,71,87,.4);
+    margin-bottom:24px;
+  }
+  .hero .sticker{order:7;}
+
+  .countdown-box{
+    display:inline-flex; align-items:center; gap:10px; background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.16); padding:14px 22px; border-radius:14px;
+    margin-bottom:32px; flex-wrap:wrap; order:8; max-width:100%;
+  }
+  .countdown-label{color:var(--gray); font-size:15px; font-weight:700;}
+  .countdown-time{
+    color:var(--yellow); font-size:22px; font-weight:900; font-variant-numeric:tabular-nums;
+    letter-spacing:.02em; white-space:nowrap;
+  }
+
+  /* ===== banner ===== */
+  .banner{
+    background:var(--yellow); color:#111; text-align:center; padding:16px 20px;
+    font-weight:800; font-size:16px;
+  }
+
+  /* ===== section basics ===== */
+  section{padding:80px 0;}
+  .section-light{background:var(--section-light);}
+  .section-title{
+    font-size:clamp(26px, 4vw, 36px); text-align:center; margin-bottom:14px;
+  }
+  .section-sub{text-align:center; color:#6b7280; font-size:17px; margin-bottom:48px;}
+
+  /* ===== empathy cards ===== */
+  .empathy-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:36px;}
+  .empathy-card{
+    background:#fff; border:1px solid var(--card-border); border-radius:18px; padding:32px 24px;
+    text-align:center; box-shadow:0 4px 14px rgba(0,0,0,.03);
+  }
+  .empathy-card .emoji{font-size:38px; margin-bottom:16px;}
+  .empathy-card p{font-size:17px; font-weight:700; color:var(--text-dark);}
+  .empathy-footer{
+    text-align:center; font-size:19px; font-weight:800; color:var(--text-dark);
+    background:linear-gradient(90deg, rgba(255,212,0,.15), rgba(61,220,132,.15));
+    padding:22px; border-radius:14px;
+  }
+
+  /* ===== schedule boxes ===== */
+  .schedule-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .schedule-card{
+    background:#fff; border:2px solid var(--mint); border-radius:18px; padding:30px;
+  }
+  .schedule-card .tag{
+    display:inline-block; background:var(--mint); color:#06210f; font-size:14px; font-weight:800;
+    padding:5px 12px; border-radius:8px; margin-bottom:14px;
+  }
+  .schedule-card p{font-size:19px; font-weight:800; color:var(--text-dark);}
+  .schedule-card span{display:block; font-size:15px; font-weight:500; color:#6b7280; margin-top:6px;}
+
+  /* ===== curriculum timeline ===== */
+  .timeline{position:relative; max-width:760px; margin:0 auto; padding-left:36px;}
+  .timeline::before{
+    content:""; position:absolute; left:9px; top:6px; bottom:6px; width:3px;
+    background:linear-gradient(#FFD400, #3DDC84);
+  }
+  .tl-item{position:relative; padding-bottom:44px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-dot{
+    position:absolute; left:-36px; top:2px; width:22px; height:22px; border-radius:50%;
+    background:#fff; border:4px solid var(--mint);
+  }
+  .tl-week{
+    display:inline-block; font-size:14px; font-weight:800; color:#fff;
+    background:var(--text-dark); padding:4px 12px; border-radius:8px; margin-bottom:10px;
+  }
+  .tl-item h3{font-size:21px; margin-bottom:8px;}
+  .tl-item p{font-size:17px; color:#6b7280;}
+
+  #curriculum{border:3px solid transparent;}
+  #curriculum.highlight{animation:curriculumGlow 1.8s ease;}
+  @keyframes curriculumGlow{
+    0%{border-color:transparent; box-shadow:none;}
+    20%{border-color:var(--mint); box-shadow:0 0 24px rgba(61,220,132,.35), inset 0 0 24px rgba(61,220,132,.15);}
+    100%{border-color:transparent; box-shadow:none;}
+  }
+
+  /* ===== instructors ===== */
+  .instructor-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  .instructor-card{
+    background:#fff; border:2px solid var(--mint); border-radius:20px; padding:32px;
+    text-align:center;
+  }
+  .avatar-upload{
+    position:relative; width:120px; margin:0 auto 14px;
+  }
+  .avatar-circle{
+    position:relative; display:flex; align-items:center; justify-content:center;
+    width:120px; height:120px; border-radius:50%; overflow:hidden; cursor:pointer;
+    background:linear-gradient(135deg, #eafaf1, #f7f8fa);
+    border:2px dashed var(--mint);
+  }
+  .avatar-upload.has-photo .avatar-circle{border-style:solid;}
+  .avatar-input{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+  .avatar-img{
+    display:none; width:100%; height:100%; object-fit:cover; border-radius:50%;
+  }
+  .avatar-upload.has-photo .avatar-img{display:block;}
+  .avatar-upload.has-photo .avatar-placeholder-content{display:none;}
+  .avatar-placeholder-content{
+    display:flex; flex-direction:column; align-items:center; gap:4px; color:var(--mint);
+  }
+  .avatar-icon{font-size:32px;}
+  .avatar-text{font-size:13px; font-weight:700;}
+  .avatar-overlay{
+    position:absolute; inset:0; border-radius:50%; background:rgba(13,17,23,.6); color:#fff;
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:2px;
+    font-size:13px; font-weight:700; opacity:0; transition:opacity .2s ease; text-align:center;
+    padding:8px; pointer-events:none;
+  }
+  .avatar-upload.has-photo .avatar-circle:hover .avatar-overlay{opacity:1;}
+  @media (hover:none){
+    .avatar-upload.has-photo .avatar-overlay{opacity:.85;}
+  }
+  .avatar-remove{
+    display:none; align-items:center; justify-content:center; min-height:44px;
+    margin:0 auto 16px; background:transparent; border:1px solid var(--card-border);
+    color:#8b93a3; font-size:13px; font-weight:700; padding:6px 16px; border-radius:999px;
+    cursor:pointer; font-family:inherit;
+  }
+  .avatar-upload.has-photo .avatar-remove{display:inline-flex;}
+  .avatar-remove:hover{border-color:var(--red); color:var(--red);}
+  .badge-week{
+    display:inline-block; background:rgba(61,220,132,.12); color:#1a8a4d; font-weight:800;
+    font-size:14px; padding:6px 14px; border-radius:999px; margin-bottom:12px;
+  }
+  .instructor-card h3{font-size:22px; margin-bottom:4px;}
+  .instructor-card .role{color:#6b7280; font-size:15px; margin-bottom:18px;}
+  .instructor-list{text-align:left;}
+  .instructor-list li{
+    font-size:16px; color:var(--text-body); margin-bottom:9px; padding-left:22px; position:relative;
+  }
+  .instructor-list li::before{
+    content:"$"; position:absolute; left:0; color:var(--mint); font-weight:900;
+  }
+
+  /* ===== checklist ===== */
+  .checklist{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .check-item{
+    background:#fff; border:1px solid var(--card-border); border-radius:14px; padding:22px 20px;
+    display:flex; align-items:flex-start; gap:12px; font-size:17px; font-weight:700; color:var(--text-dark);
+  }
+  .check-item .mark{font-size:22px; flex-shrink:0;}
+
+  /* ===== registration box ===== */
+  .register-box{
+    background:linear-gradient(160deg,#0D1117, #1A2333);
+    border-radius:24px; padding:44px 36px; color:#fff; position:relative; overflow:hidden;
+  }
+  .register-box::before{
+    content:""; position:absolute; top:-100px; right:-100px; width:300px; height:300px;
+    background:radial-gradient(circle, rgba(255,212,0,.15), transparent 70%); border-radius:50%;
+  }
+  .register-badge{
+    display:inline-block; background:var(--red); color:#fff; font-weight:800; font-size:14px;
+    padding:7px 16px; border-radius:999px; margin-bottom:20px;
+  }
+  .register-meta{color:var(--gray); font-size:16px; margin-bottom:6px;}
+  .register-meta strong{color:#fff;}
+  .price-row{margin:26px 0; position:relative; z-index:2;}
+  .price-old{color:var(--gray); font-size:19px; text-decoration:line-through; margin-right:10px;}
+  .price-new{color:var(--yellow); font-size:clamp(30px,5vw,42px); font-weight:900;}
+  .price-badges{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+  .pill-yellow{
+    background:var(--yellow); color:#111; font-weight:800; font-size:14px; padding:6px 14px; border-radius:999px;
+  }
+  .price-note{color:var(--gray); font-size:14px;}
+  .pay-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:28px 0 32px;
+    position:relative; z-index:2;
+  }
+  .pay-item{
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14);
+    border-radius:12px; padding:16px; font-size:15px; font-weight:700; color:#e6e9ef;
+    display:flex; align-items:center; gap:10px;
+  }
+  .pay-item .ico{font-size:20px;}
+
+  /* ===== FAQ ===== */
+  .faq-item{
+    background:#fff; border:1px solid var(--card-border); border-radius:14px; margin-bottom:14px; overflow:hidden;
+  }
+  .faq-q{
+    width:100%; min-height:44px; text-align:left; padding:22px 24px; background:none; border:none; cursor:pointer;
+    font-size:18px; font-weight:800; color:var(--text-dark); display:flex; justify-content:space-between; align-items:center;
+    font-family:inherit; gap:12px;
+  }
+  .faq-q span:first-child{flex:1; min-width:0;}
+  .faq-q .arrow{transition:transform .25s ease; color:var(--mint); font-size:16px; flex-shrink:0;}
+  .faq-item.open .faq-q .arrow{transform:rotate(180deg);}
+  .faq-a{
+    max-height:0; overflow:hidden; transition:max-height .3s ease;
+  }
+  .faq-a p{padding:0 24px 22px; font-size:17px; color:#6b7280;}
+
+  /* ===== final CTA ===== */
+  .final-cta{
+    background:linear-gradient(160deg,#0D1117, #1A2333); text-align:center; padding:90px 0;
+    position:relative; overflow:hidden;
+  }
+  .final-cta::before{
+    content:""; position:absolute; top:-140px; left:50%; transform:translateX(-50%); width:500px; height:500px;
+    background:radial-gradient(circle, rgba(255,212,0,.14), transparent 70%); border-radius:50%;
+  }
+  .final-cta-inner{position:relative; z-index:2;}
+  .final-quote{color:var(--yellow); font-size:clamp(22px,4vw,32px); font-weight:900; font-style:italic; margin-bottom:22px;}
+  .final-cta .sticker{margin-bottom:28px;}
+  .final-cta .btn-row{justify-content:center;}
+
+  /* ===== footer ===== */
+  footer{background:#0D1117; color:var(--gray); text-align:center; padding:44px 20px 100px; font-size:14px;}
+  footer .brand{color:#fff; font-weight:800; font-size:16px; margin-bottom:10px;}
+  footer .biz-info{margin-top:14px; font-size:13px; color:#5b6472; line-height:1.8;}
+
+  /* ===== fixed CTA ===== */
+  .fixed-cta{
+    position:fixed; right:24px; bottom:24px; z-index:999;
+  }
+  .fixed-cta a{
+    display:flex; align-items:center; gap:8px; background:var(--yellow); color:#111;
+    font-weight:800; font-size:16px; padding:16px 24px; border-radius:999px;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+  }
+
+  /* ===== responsive =====
+     desktop: 1024px 이상 (기본 스타일)
+     tablet : 768px ~ 1023px
+     mobile : 767px 이하
+  ================================ */
+
+  /* ---- 태블릿: 768px ~ 1023px ---- */
+  @media (max-width:1023px){
+    .empathy-grid{grid-template-columns:repeat(2,1fr);}
+  }
+
+  /* ---- 모바일: 767px 이하 ---- */
+  @media (max-width:767px){
+    .empathy-grid{grid-template-columns:1fr;}
+    .schedule-grid{grid-template-columns:1fr;}
+    .instructor-grid{grid-template-columns:1fr;}
+    .checklist{grid-template-columns:1fr;}
+
+    .hero{padding:72px 0 60px;}
+    section{padding:56px 0;}
+
+    /* 버튼: 세로로 쌓고 폭 꽉 채우기, 터치 영역 44px 이상 */
+    .btn{width:100%; min-height:52px;}
+    .btn-row{flex-direction:column;}
+
+    /* 히어로: 마스코트+말풍선을 헤드라인 위쪽으로 재배치 */
+    .hero-mascot-wrap{order:2; margin-bottom:24px;}
+    .speech-bubble{white-space:normal;}
+
+    /* 카운트다운: 숫자 겹침/잘림 방지 */
+    .countdown-box{padding:12px 16px; gap:6px 10px;}
+    .countdown-label{font-size:15px;}
+    .countdown-time{font-size:19px; letter-spacing:0;}
+
+    /* 커리큘럼 타임라인: 왼쪽 정렬로 좁혀서 텍스트와 안 겹치게 */
+    .timeline{padding-left:26px;}
+    .timeline::before{left:7px;}
+    .tl-dot{left:-26px; width:18px; height:18px; border-width:3px;}
+    .tl-week{font-size:15px;}
+    .tl-item h3{font-size:19px;}
+    .tl-item{padding-bottom:36px;}
+
+    /* 강사 카드: 세로 쌓기 + 내용 중앙 정렬 */
+    .instructor-card{padding:28px 24px;}
+    .instructor-list{max-width:240px; margin:0 auto;}
+    .instructor-card .role{font-size:15px;}
+
+    /* 참가 안내 박스: 결제수단 2x2 유지, 가격 크기 유지 */
+    .register-box{padding:32px 22px;}
+    .price-new{font-size:clamp(28px,9vw,36px);}
+    .price-note{font-size:15px;}
+    .register-badge{font-size:15px;}
+    .pay-item{font-size:15px; padding:14px 12px;}
+
+    /* FAQ: 버튼 터치 영역 44px 이상 확보 */
+    .faq-q{padding:18px 20px; font-size:17px;}
+
+    /* 고정 CTA: 하단 전체 폭 바 형태로 전환 */
+    .fixed-cta{left:0; right:0; bottom:0; width:100%;}
+    .fixed-cta a{border-radius:0; width:100%; justify-content:center; padding:18px 24px; min-height:56px;}
+    body{padding-bottom:82px;}
+
+    /* 텍스트 최소 크기 15px 보장 */
+    .pill{font-size:15px;}
+    .tl-week{font-size:15px;}
+    .badge-week{font-size:15px;}
+    .avatar-text{font-size:15px;}
+    .avatar-overlay{font-size:15px;}
+    .avatar-remove{font-size:15px;}
+    footer{font-size:15px;}
+    footer .biz-info{font-size:15px;}
+  }
+
+  /* ---- 초소형 화면(380px 이하): 결제수단만 1열로 ---- */
+  @media (max-width:380px){
+    .pay-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="container hero-inner">
+    <div class="pills reveal">
+      <span class="pill on">모집중</span>
+      <span class="pill pill-clickable" id="pillRegularBatch" tabindex="0" role="button" aria-label="정규 1기 배지 - 커리큘럼 섹션으로 이동">정규 1기</span>
+      <span class="pill">온라인</span>
+    </div>
+
+    <p class="hero-quote reveal">&ldquo; 이런 강의 있으면 좋겠다 &rdquo;</p>
+
+    <h1 class="reveal"><span class="accent">Claude_code</span>로<br>내 손으로 만드는 법</h1>
+    <p class="hero-sub reveal">설치부터 개발·수정·보안·배포까지 한 번에! 왕초보 4주 완성</p>
+
+    <ul class="hero-benefits reveal">
+      <li class="marquee-item">
+        <span class="marquee-track">
+          <span class="marquee-content">
+            <span>왕초보도 4주면 내 손으로 웹사이트를 완성합니다</span>
+            <span>왕초보도 4주면 내 손으로 웹사이트를 완성합니다</span>
+          </span>
+        </span>
+      </li>
+      <li>매주 실습 + 피드백으로 완성도를 높입니다</li>
+      <li>4주 후, 실제 배포된 내 웹사이트와 포트폴리오가 남습니다</li>
+    </ul>
+
+    <div class="hero-mascot-wrap reveal">
+      <div class="mascot">
+        <div class="mascot-cap"></div>
+        <div class="mascot-face">
+          <div class="mascot-eye l"></div>
+          <div class="mascot-eye r"></div>
+          <div class="mascot-mouth"></div>
+        </div>
+      </div>
+      <div class="speech-bubble">왕초보도 4주면 됩니다!</div>
+    </div>
+
+    <div class="sticker reveal">선착순 모집중 🔥</div>
+
+    <div class="countdown-box reveal">
+      <span class="countdown-label">개강까지</span>
+      <span class="countdown-time" id="countdown">계산 중...</span>
+    </div>
+
+    <div class="btn-row reveal">
+      <!-- 여기에 신청 링크 넣기 -->
+      <a href="#" class="btn btn-primary">무료특강 신청하기</a>
+      <!-- 여기에 신청 링크 넣기 -->
+      <a href="#" class="btn btn-outline">정규과정 신청하기</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 무료특강 배너 ===== -->
+<div class="banner">
+  7월 27일(월) 밤 9시 | Zoom 웨비나 | 서희경 교수 무료 공개특강
+</div>
+
+<!-- ===== 공감 섹션 ===== -->
+<section class="section-light">
+  <div class="container">
+    <h2 class="section-title reveal">혹시 이런 고민 있으신가요?</h2>
+    <div class="empathy-grid">
+      <div class="empathy-card reveal">
+        <div class="emoji">💸</div>
+        <p>&ldquo;외주비가 수백만 원…&rdquo;</p>
+      </div>
+      <div class="empathy-card reveal">
+        <div class="emoji">😰</div>
+        <p>&ldquo;검은 화면만 봐도 무섭습니다&rdquo;</p>
+      </div>
+      <div class="empathy-card reveal">
+        <div class="emoji">🙈</div>
+        <p>&ldquo;만들긴 했는데 못 올리겠어요&rdquo;</p>
+      </div>
+    </div>
+    <p class="empathy-footer reveal">이 과정은 바로 그 '검은 화면'을 여러분의 무기로 바꿔드립니다.</p>
+  </div>
+</section>
+
+<!-- ===== 스터디 기간/일정 ===== -->
+<section>
+  <div class="container">
+    <h2 class="section-title reveal">교육 기간 &amp; 일정</h2>
+    <p class="section-sub reveal">부담 없이 참여할 수 있도록 짧고 집중적으로 구성했습니다</p>
+    <div class="schedule-grid">
+      <div class="schedule-card reveal">
+        <span class="tag">교육 기간</span>
+        <p>2026년 8월 3일 ~ 2026년 8월 24일</p>
+        <span>4주 과정</span>
+      </div>
+      <div class="schedule-card reveal">
+        <span class="tag">주간 일정</span>
+        <p>매주 월요일 밤 9시, 회당 2시간</p>
+        <span>총 4회 8시간 · 온라인(Zoom)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 커리큘럼 ===== -->
+<section class="section-light" id="curriculum">
+  <div class="container">
+    <h2 class="section-title reveal">4주 로드맵</h2>
+    <p class="section-sub reveal">설치부터 배포까지, 순서대로 따라오기만 하면 됩니다</p>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <span class="tl-week">1주차</span>
+        <h3>우분투 환경 구축 &amp; 개발 환경 준비</h3>
+        <p>WSL 설치, Ubuntu 설정, Node.js·Git·Claude_code CLI 설치, 기본 명령어 실습</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <span class="tl-week">2주차</span>
+        <h3>나만의 홈페이지 만들기</h3>
+        <p>프롬프트 작성 전략, HTML·CSS·JS 제작, GitHub 연동, Netlify 첫 배포</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <span class="tl-week">3주차</span>
+        <h3>랜딩페이지 수정 &amp; 보안 작업</h3>
+        <p>디자인·콘텐츠 수정, 반응형 적용, HTTPS·보안 헤더 점검, 접근성·성능 최적화</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <span class="tl-week">4주차</span>
+        <h3>미니 앱 만들기 &amp; 발표</h3>
+        <p>미니 앱 개발, 버전 관리, 도메인 설정, 발표·피드백</p>
+      </div>
+    </div>
+    <div class="btn-row reveal" style="justify-content:center; margin-top:44px;">
+      <!-- 여기에 신청 링크 넣기 -->
+      <a href="#" class="btn btn-primary" style="background:var(--yellow); color:#111;">정규과정 신청하기</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 강사 소개 ===== -->
+<section>
+  <div class="container">
+    <h2 class="section-title reveal">강사 소개</h2>
+    <p class="section-sub reveal">현업 전문가 두 분이 4주 동안 함께합니다</p>
+    <div class="instructor-grid">
+      <div class="instructor-card reveal">
+        <span class="badge-week">1·2주차 담당</span>
+        <div class="avatar-upload" data-key="instructorPhoto_seohuigyeong">
+          <label class="avatar-circle">
+            <input type="file" accept="image/*" class="avatar-input">
+            <img class="avatar-img" alt="서희경 교수 사진">
+            <span class="avatar-placeholder-content">
+              <span class="avatar-icon">👤</span>
+              <span class="avatar-text">사진 업로드</span>
+            </span>
+            <span class="avatar-overlay">📷 사진 변경</span>
+          </label>
+          <button type="button" class="avatar-remove">사진 삭제</button>
+        </div>
+        <h3>서희경 교수</h3>
+        <p class="role">Claude_code CLI 개발 환경 &amp; 첫 배포</p>
+        <ul class="instructor-list">
+          <li>주식회사 마틴랩스 대표</li>
+          <li>글로벌사이버대학교 특임교수</li>
+          <li>초당대학교 겸임교수</li>
+          <li>경기인력개발원 AI 훈련 코치</li>
+          <li>중랑구 창업진흥센터 멘토</li>
+        </ul>
+      </div>
+      <div class="instructor-card reveal">
+        <span class="badge-week">3·4주차 담당</span>
+        <div class="avatar-upload" data-key="instructorPhoto_kangyeonrye">
+          <label class="avatar-circle">
+            <input type="file" accept="image/*" class="avatar-input">
+            <img class="avatar-img" alt="강연례 교수 사진">
+            <span class="avatar-placeholder-content">
+              <span class="avatar-icon">👤</span>
+              <span class="avatar-text">사진 업로드</span>
+            </span>
+            <span class="avatar-overlay">📷 사진 변경</span>
+          </label>
+          <button type="button" class="avatar-remove">사진 삭제</button>
+        </div>
+        <h3>강연례 교수</h3>
+        <p class="role">수정·보안·미니 앱 &amp; 발표</p>
+        <ul class="instructor-list">
+          <li>㈜인카금융 지라이프 본부 대표</li>
+          <li>글로벌사이버대학교 대외협력 특임교수</li>
+          <li>글로벌사이버대학교 홍보대사</li>
+          <li>하남고총동문회 명예회장</li>
+          <li>사단법인 한국근우회 최고위원</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 수강 후 얻는 것 ===== -->
+<section class="section-light">
+  <div class="container">
+    <h2 class="section-title reveal">수강 후 얻는 것</h2>
+    <p class="section-sub reveal">4주 뒤 여러분의 손에 남는 것들입니다</p>
+    <div class="checklist">
+      <div class="check-item reveal"><span class="mark">✅</span>내 손으로 만든 나만의 웹사이트 (실제 인터넷 주소 보유)</div>
+      <div class="check-item reveal"><span class="mark">✅</span>WSL·GitHub·Netlify 실전 배포 경험</div>
+      <div class="check-item reveal"><span class="mark">✅</span>포트폴리오로 쓸 수 있는 결과물</div>
+      <div class="check-item reveal"><span class="mark">✅</span>AI에게 일 시키는 프롬프트 작성 능력</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 참가 안내 ===== -->
+<section>
+  <div class="container">
+    <h2 class="section-title reveal">참가 안내</h2>
+    <div class="register-box reveal">
+      <span class="register-badge">정원 20명 · 선착순 마감</span>
+      <p class="register-meta"><strong>주관</strong> · K-Media Group</p>
+      <p class="register-meta"><strong>진행 방식</strong> · 온라인(Zoom) 실시간 강의</p>
+
+      <div class="price-row">
+        <span class="price-old">299,000원</span>
+        <span class="price-new">249,000원</span>
+        <div class="price-badges">
+          <span class="pill-yellow">헤르메스 120클럽 얼리버드</span>
+          <span class="price-note">일반 최초수강가 299,000원</span>
+        </div>
+      </div>
+
+      <div class="pay-grid">
+        <div class="pay-item"><span class="ico">💳</span>평생교육이용권카드</div>
+        <div class="pay-item"><span class="ico">💳</span>신용카드</div>
+        <div class="pay-item"><span class="ico">🏦</span>현금이체</div>
+        <div class="pay-item"><span class="ico">🏧</span>가상계좌 무통장입금(24시간 이내)</div>
+      </div>
+
+      <!-- 여기에 신청 링크 넣기 -->
+      <a href="#" class="btn btn-primary btn-block">정규과정 신청하기</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section-light">
+  <div class="container" style="max-width:760px;">
+    <h2 class="section-title reveal">자주 묻는 질문</h2>
+    <div class="faq-item reveal">
+      <button class="faq-q" type="button">
+        <span>Q1. 코딩을 전혀 몰라도 되나요?</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="faq-a">
+        <p>네, 왕초보 기준 단계별 실습으로 진행합니다.</p>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" type="button">
+        <span>Q2. 맥북인데 들을 수 있나요?</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="faq-a">
+        <p>네, 환경 설정 방법을 함께 안내합니다.</p>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" type="button">
+        <span>Q3. 강의를 놓치면 어떻게 되나요?</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="faq-a">
+        <!-- 답변 수정하기 -->
+        <p>다시보기 제공 여부는 추후 안내드립니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 마지막 CTA ===== -->
+<section class="final-cta">
+  <div class="container final-cta-inner">
+    <p class="final-quote reveal">&ldquo; 4주 뒤, 당신의 웹사이트가 인터넷에 떠 있습니다 &rdquo;</p>
+    <div class="sticker reveal">선착순 모집중 🔥</div>
+    <div class="btn-row reveal">
+      <!-- 여기에 신청 링크 넣기 -->
+      <a href="#" class="btn btn-primary">정규과정 신청하기</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 푸터 ===== -->
+<footer>
+  <p class="brand">K-Media Group</p>
+  <p>AI 비즈니스 마케팅 4주 과정</p>
+  <p class="biz-info">
+    <!-- 여기에 사업자 정보 넣기: 상호·대표자·사업자등록번호·주소·연락처 -->
+    상호명 | 대표자명 | 사업자등록번호 000-00-00000 | 주소 | 연락처
+  </p>
+</footer>
+
+<!-- ===== 고정 CTA ===== -->
+<div class="fixed-cta">
+  <!-- 여기에 신청 링크 넣기 -->
+  <a href="#">🔥 정규과정 신청하기</a>
+</div>
+
+<script>
+  // ===== 카운트다운 타이머 =====
+  (function(){
+    var target = new Date("2026-08-03T21:00:00+09:00").getTime();
+    var el = document.getElementById("countdown");
+    function tick(){
+      var now = new Date().getTime();
+      var diff = target - now;
+      if(diff <= 0){
+        el.textContent = "개강했습니다!";
+        return;
+      }
+      var d = Math.floor(diff / (1000*60*60*24));
+      var h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+      var m = Math.floor((diff % (1000*60*60)) / (1000*60));
+      var s = Math.floor((diff % (1000*60)) / 1000);
+      function pad(n){ return String(n).padStart(2,"0"); }
+      el.textContent = d + "일 " + pad(h) + ":" + pad(m) + ":" + pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  // ===== FAQ 아코디언 =====
+  document.querySelectorAll(".faq-q").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var item = btn.closest(".faq-item");
+      var answer = item.querySelector(".faq-a");
+      var isOpen = item.classList.contains("open");
+
+      document.querySelectorAll(".faq-item.open").forEach(function(openItem){
+        if(openItem !== item){
+          openItem.classList.remove("open");
+          openItem.querySelector(".faq-a").style.maxHeight = null;
+        }
+      });
+
+      if(isOpen){
+        item.classList.remove("open");
+        answer.style.maxHeight = null;
+      } else {
+        item.classList.add("open");
+        answer.style.maxHeight = answer.scrollHeight + "px";
+      }
+    });
+  });
+
+  // ===== 스크롤 등장 애니메이션 =====
+  (function(){
+    var els = document.querySelectorAll(".reveal");
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function(el){ observer.observe(el); });
+  })();
+
+  // ===== "정규 1기" 배지 -> 커리큘럼 섹션 스크롤 + 하이라이트 =====
+  (function(){
+    var pill = document.getElementById("pillRegularBatch");
+    var target = document.getElementById("curriculum");
+    if(!pill || !target) return;
+
+    function goToCurriculum(){
+      target.scrollIntoView({ behavior:"smooth", block:"start" });
+      target.classList.remove("highlight");
+      void target.offsetWidth;
+      setTimeout(function(){
+        target.classList.add("highlight");
+      }, 400);
+      setTimeout(function(){
+        target.classList.remove("highlight");
+      }, 2200);
+    }
+
+    pill.addEventListener("click", goToCurriculum);
+    pill.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        goToCurriculum();
+      }
+    });
+  })();
+
+  // ===== 강사 사진 업로드 (localStorage 저장) =====
+  document.querySelectorAll(".avatar-upload").forEach(function(wrap){
+    var key = wrap.dataset.key;
+    var input = wrap.querySelector(".avatar-input");
+    var img = wrap.querySelector(".avatar-img");
+    var removeBtn = wrap.querySelector(".avatar-remove");
+
+    var saved = localStorage.getItem(key);
+    if(saved){
+      img.src = saved;
+      wrap.classList.add("has-photo");
+    }
+
+    input.addEventListener("change", function(){
+      var file = input.files && input.files[0];
+      if(!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e){
+        var dataUrl = e.target.result;
+        img.src = dataUrl;
+        wrap.classList.add("has-photo");
+        try{
+          localStorage.setItem(key, dataUrl);
+        }catch(err){
+          alert("이미지 용량이 너무 커서 저장할 수 없습니다. 더 작은 사진을 선택해주세요.");
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    removeBtn.addEventListener("click", function(){
+      localStorage.removeItem(key);
+      img.removeAttribute("src");
+      wrap.classList.remove("has-photo");
+      input.value = "";
+    });
+  });
+</script>
+</body>
+</html>
