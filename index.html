@@ -256,8 +256,8 @@
   .tl-item h3{font-size:21px; margin-bottom:8px;}
   .tl-item p{font-size:17px; color:#6b7280;}
 
-  #curriculum{border:3px solid transparent;}
-  #curriculum.highlight{animation:curriculumGlow 1.8s ease;}
+  #curriculum, #instructors{border:3px solid transparent;}
+  #curriculum.highlight, #instructors.highlight{animation:curriculumGlow 1.8s ease;}
   @keyframes curriculumGlow{
     0%{border-color:transparent; box-shadow:none;}
     20%{border-color:var(--mint); box-shadow:0 0 24px rgba(61,220,132,.35), inset 0 0 24px rgba(61,220,132,.15);}
@@ -423,6 +423,7 @@
   /* ---- 태블릿: 768px ~ 1023px ---- */
   @media (max-width:1023px){
     .empathy-grid{grid-template-columns:repeat(2,1fr);}
+    .pill{padding:6px 13px; font-size:13px;}
   }
 
   /* ---- 모바일: 767px 이하 ---- */
@@ -476,8 +477,11 @@
     .fixed-cta a{border-radius:0; width:100%; justify-content:center; padding:18px 24px; min-height:56px;}
     body{padding-bottom:82px;}
 
-    /* 텍스트 최소 크기 15px 보장 */
-    .pill{font-size:15px;}
+    /* 텍스트 최소 크기 15px 보장 + 배지 4개 줄바꿈/터치 영역 확보 */
+    .pill{
+      font-size:15px; padding:9px 16px; min-height:40px;
+      display:inline-flex; align-items:center; white-space:nowrap;
+    }
     .tl-week{font-size:15px;}
     .badge-week{font-size:15px;}
     .avatar-text{font-size:15px;}
@@ -502,6 +506,7 @@
       <span class="pill on">모집중</span>
       <span class="pill pill-clickable" id="pillRegularBatch" tabindex="0" role="button" aria-label="정규 1기 배지 - 커리큘럼 섹션으로 이동">정규 1기</span>
       <span class="pill">온라인</span>
+      <span class="pill pill-clickable" id="pillInstructors" tabindex="0" role="button" aria-label="강사진 배지 - 강사 소개 섹션으로 이동">강사진</span>
     </div>
 
     <p class="hero-quote reveal">&ldquo; 이런 강의 있으면 좋겠다 &rdquo;</p>
@@ -636,7 +641,7 @@
 </section>
 
 <!-- ===== 강사 소개 ===== -->
-<section>
+<section id="instructors">
   <div class="container">
     <h2 class="section-title reveal">강사 소개</h2>
     <p class="section-sub reveal">현업 전문가 두 분이 4주 동안 함께합니다</p>
@@ -862,13 +867,13 @@
     els.forEach(function(el){ observer.observe(el); });
   })();
 
-  // ===== "정규 1기" 배지 -> 커리큘럼 섹션 스크롤 + 하이라이트 =====
-  (function(){
-    var pill = document.getElementById("pillRegularBatch");
-    var target = document.getElementById("curriculum");
+  // ===== 배지 클릭 -> 해당 섹션 스크롤 + 하이라이트 =====
+  function bindPillScroll(pillId, targetId){
+    var pill = document.getElementById(pillId);
+    var target = document.getElementById(targetId);
     if(!pill || !target) return;
 
-    function goToCurriculum(){
+    function goToSection(){
       target.scrollIntoView({ behavior:"smooth", block:"start" });
       target.classList.remove("highlight");
       void target.offsetWidth;
@@ -880,14 +885,16 @@
       }, 2200);
     }
 
-    pill.addEventListener("click", goToCurriculum);
+    pill.addEventListener("click", goToSection);
     pill.addEventListener("keydown", function(e){
       if(e.key === "Enter" || e.key === " "){
         e.preventDefault();
-        goToCurriculum();
+        goToSection();
       }
     });
-  })();
+  }
+  bindPillScroll("pillRegularBatch", "curriculum");
+  bindPillScroll("pillInstructors", "instructors");
 
   // ===== 강사 사진 업로드 (localStorage 저장) =====
   document.querySelectorAll(".avatar-upload").forEach(function(wrap){
