@@ -116,15 +116,18 @@
     content:"·"; position:absolute; left:0; top:0; color:var(--mint); font-weight:900; font-size:22px;
   }
 
-  .slide-in-item{overflow:hidden;}
-  .slide-in-track{display:block; overflow:hidden; width:100%;}
-  .slide-in-text{
-    display:inline-block; white-space:nowrap;
-    animation:slideInText 2.8s ease-out forwards;
+  .marquee-item{overflow:hidden;}
+  .marquee-track{display:block; overflow:hidden; width:100%;}
+  .marquee-content{
+    display:inline-flex; white-space:nowrap;
+    animation:marqueeScroll 20s linear infinite;
   }
-  @keyframes slideInText{
-    0%{transform:translateX(120%);}
-    100%{transform:translateX(0);}
+  .marquee-content span{padding-right:48px;}
+  .marquee-track:hover .marquee-content,
+  .marquee-track:active .marquee-content{animation-play-state:paused;}
+  @keyframes marqueeScroll{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
   }
 
   .hero-mascot-wrap{
@@ -507,9 +510,12 @@
     <p class="hero-sub reveal">설치부터 개발·수정·보안·배포까지 한 번에! 왕초보 4주 완성</p>
 
     <ul class="hero-benefits reveal">
-      <li class="slide-in-item">
-        <span class="slide-in-track">
-          <span class="slide-in-text">왕초보도 4주면 내 손으로 웹사이트를 완성합니다</span>
+      <li class="marquee-item">
+        <span class="marquee-track">
+          <span class="marquee-content">
+            <span>왕초보도 4주면 내 손으로 웹사이트를 완성합니다</span>
+            <span>왕초보도 4주면 내 손으로 웹사이트를 완성합니다</span>
+          </span>
         </span>
       </li>
       <li>매주 실습 + 피드백으로 완성도를 높입니다</li>
