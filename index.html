@@ -243,7 +243,7 @@
     content:""; position:absolute; left:9px; top:6px; bottom:6px; width:3px;
     background:linear-gradient(#FFD400, #3DDC84);
   }
-  .tl-item{position:relative; padding-bottom:44px;}
+  .tl-item{position:relative; padding-bottom:24px;}
   .tl-item:last-child{padding-bottom:0;}
   .tl-dot{
     position:absolute; left:-36px; top:2px; width:22px; height:22px; border-radius:50%;
@@ -253,8 +253,33 @@
     display:inline-block; font-size:14px; font-weight:800; color:#fff;
     background:var(--text-dark); padding:4px 12px; border-radius:8px; margin-bottom:10px;
   }
-  .tl-item h3{font-size:21px; margin-bottom:8px;}
+  .tl-item h3{font-size:21px; margin-bottom:0;}
   .tl-item p{font-size:17px; color:#6b7280;}
+
+  .tl-header{
+    width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px;
+    background:#fff; border:1px solid var(--card-border); border-radius:14px;
+    padding:16px 20px; cursor:pointer; text-align:left; font-family:inherit;
+    transition:background .2s ease, border-color .2s ease;
+  }
+  .tl-header:hover, .tl-header:focus-visible{background:#f0fdf6; border-color:var(--mint);}
+  .tl-header-text{display:flex; flex-direction:column; gap:6px;}
+  .tl-arrow{
+    flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;
+    width:44px; height:44px; color:var(--mint); font-size:16px; transition:transform .3s ease;
+  }
+  .tl-item.open .tl-arrow{transform:rotate(180deg);}
+
+  .tl-body{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+  .tl-body-inner{padding:18px 24px 4px;}
+  .tl-intro{margin-bottom:14px; line-height:1.6;}
+  .tl-list li{
+    font-size:17px; color:var(--text-body); margin-bottom:10px; padding-left:26px; position:relative;
+  }
+  .tl-list li:last-child{margin-bottom:0;}
+  .tl-list li::before{
+    content:"✓"; position:absolute; left:0; top:0; color:var(--mint); font-weight:900;
+  }
 
   #curriculum, #instructors{border:3px solid transparent;}
   #curriculum.highlight, #instructors.highlight{animation:curriculumGlow 1.8s ease;}
@@ -455,7 +480,9 @@
     .tl-dot{left:-26px; width:18px; height:18px; border-width:3px;}
     .tl-week{font-size:15px;}
     .tl-item h3{font-size:19px;}
-    .tl-item{padding-bottom:36px;}
+    .tl-item{padding-bottom:20px;}
+    .tl-header{padding:14px 16px;}
+    .tl-body-inner{padding:16px 16px 4px;}
 
     /* 강사 카드: 세로 쌓기 + 내용 중앙 정렬 */
     .instructor-card{padding:28px 24px;}
@@ -610,27 +637,87 @@
     <div class="timeline">
       <div class="tl-item reveal">
         <div class="tl-dot"></div>
-        <span class="tl-week">1주차</span>
-        <h3>우분투 환경 구축 &amp; 개발 환경 준비</h3>
-        <p>WSL 설치, Ubuntu 설정, Node.js·Git·Claude_code CLI 설치, 기본 명령어 실습</p>
+        <button class="tl-header" type="button" aria-expanded="false">
+          <span class="tl-header-text">
+            <span class="tl-week">1주차</span>
+            <h3>우분투 환경 구축 &amp; 개발 환경 준비</h3>
+          </span>
+          <span class="tl-arrow">▼</span>
+        </button>
+        <div class="tl-body">
+          <div class="tl-body-inner">
+            <p class="tl-intro">기본 환경 구축의 첫걸음으로, Windows에서 리눅스 개발 환경을 세팅하고 Claude_code CLI를 사용할 수 있는 상태까지 준비합니다.</p>
+            <ul class="tl-list">
+              <li>WSL(Windows Subsystem for Linux) 설치 및 설정</li>
+              <li>Ubuntu(우분투) 환경 설정 및 필수 패키지 설치</li>
+              <li>Node.js, Git, Claude_code CLI 설치</li>
+              <li>환경 변수 설정 및 기본 명령어 실습</li>
+            </ul>
+          </div>
+        </div>
       </div>
       <div class="tl-item reveal">
         <div class="tl-dot"></div>
-        <span class="tl-week">2주차</span>
-        <h3>나만의 홈페이지 만들기</h3>
-        <p>프롬프트 작성 전략, HTML·CSS·JS 제작, GitHub 연동, Netlify 첫 배포</p>
+        <button class="tl-header" type="button" aria-expanded="false">
+          <span class="tl-header-text">
+            <span class="tl-week">2주차</span>
+            <h3>나만의 홈페이지 만들기 (프론트엔드 실습)</h3>
+          </span>
+          <span class="tl-arrow">▼</span>
+        </button>
+        <div class="tl-body">
+          <div class="tl-body-inner">
+            <p class="tl-intro">첫 프로젝트 완성 단계로, Claude_code CLI에 명령을 내려 랜딩페이지를 제작하고 GitHub와 Netlify로 연결합니다.</p>
+            <ul class="tl-list">
+              <li>Claude_code 프롬프트 작성 전략</li>
+              <li>HTML, CSS, JS 기반 랜딩페이지 제작</li>
+              <li>GitHub 저장소 생성 및 연동</li>
+              <li>Netlify 배포 설정 및 첫 배포 실습</li>
+            </ul>
+          </div>
+        </div>
       </div>
       <div class="tl-item reveal">
         <div class="tl-dot"></div>
-        <span class="tl-week">3주차</span>
-        <h3>랜딩페이지 수정 &amp; 보안 작업</h3>
-        <p>디자인·콘텐츠 수정, 반응형 적용, HTTPS·보안 헤더 점검, 접근성·성능 최적화</p>
+        <button class="tl-header" type="button" aria-expanded="false">
+          <span class="tl-header-text">
+            <span class="tl-week">3주차</span>
+            <h3>랜딩페이지 수정 &amp; 보안 작업하기</h3>
+          </span>
+          <span class="tl-arrow">▼</span>
+        </button>
+        <div class="tl-body">
+          <div class="tl-body-inner">
+            <p class="tl-intro">실전형 웹사이트 운영 단계로, 완성된 페이지의 디자인과 콘텐츠를 다듬고 보안과 성능을 점검합니다.</p>
+            <ul class="tl-list">
+              <li>디자인 및 콘텐츠 수정 실습</li>
+              <li>반응형(Responsive) 적용</li>
+              <li>보안 기본 점검 (HTTPS, 보안 헤더 등)</li>
+              <li>접근성 및 성능 최적화</li>
+            </ul>
+          </div>
+        </div>
       </div>
       <div class="tl-item reveal">
         <div class="tl-dot"></div>
-        <span class="tl-week">4주차</span>
-        <h3>미니 앱 만들기 &amp; 발표</h3>
-        <p>미니 앱 개발, 버전 관리, 도메인 설정, 발표·피드백</p>
+        <button class="tl-header" type="button" aria-expanded="false">
+          <span class="tl-header-text">
+            <span class="tl-week">4주차</span>
+            <h3>작은 앱 만들기 및 발표 시간</h3>
+          </span>
+          <span class="tl-arrow">▼</span>
+        </button>
+        <div class="tl-body">
+          <div class="tl-body-inner">
+            <p class="tl-intro">나만의 서비스 아이디어를 앱으로 구현하는 단계로, 기능이 있는 미니 앱을 만들고 배포한 뒤 결과물을 공유합니다.</p>
+            <ul class="tl-list">
+              <li>간단한 기능을 가진 미니 앱 개발</li>
+              <li>GitHub 저장소 관리 및 버전 관리</li>
+              <li>Netlify 배포 및 도메인 설정(선택)</li>
+              <li>프로젝트 발표 및 피드백</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
     <div class="btn-row reveal" style="justify-content:center; margin-top:44px;">
@@ -828,6 +915,25 @@
     tick();
     setInterval(tick, 1000);
   })();
+
+  // ===== 커리큘럼 아코디언 (여러 개 동시에 펼침 가능) =====
+  document.querySelectorAll(".tl-header").forEach(function(header){
+    header.addEventListener("click", function(){
+      var item = header.closest(".tl-item");
+      var body = item.querySelector(".tl-body");
+      var isOpen = item.classList.contains("open");
+
+      if(isOpen){
+        item.classList.remove("open");
+        header.setAttribute("aria-expanded", "false");
+        body.style.maxHeight = null;
+      } else {
+        item.classList.add("open");
+        header.setAttribute("aria-expanded", "true");
+        body.style.maxHeight = body.scrollHeight + "px";
+      }
+    });
+  });
 
   // ===== FAQ 아코디언 =====
   document.querySelectorAll(".faq-q").forEach(function(btn){
